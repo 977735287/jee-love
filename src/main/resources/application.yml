@@ -1,0 +1,10 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: yqcloud-workflow-service
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/todo_service?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=yes
+    username: hitom
+    password: Hitom123
+    driver-class-name: com.mysql.jdbc.Driver
