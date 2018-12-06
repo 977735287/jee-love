@@ -1,6 +1,6 @@
-package per.san.service;
+package per.san.demo.service;
 
-import per.san.domain.Demo;
+import per.san.demo.domain.Demo;
 
 import java.util.List;
 

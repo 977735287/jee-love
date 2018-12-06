@@ -1,10 +1,10 @@
 package per.san;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * description: 启动类
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * lastUpdateBy: sanchar
  * lastUpdateDate: 12/5/2018
  */
-@MapperScan("per.san.mapper")
+@MapperScan(basePackages = {"per.san.*.mapper","per.san.*.mapper.*"})
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan

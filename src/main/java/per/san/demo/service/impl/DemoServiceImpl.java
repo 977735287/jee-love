@@ -1,10 +1,10 @@
-package per.san.service.impl;
+package per.san.demo.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import per.san.domain.Demo;
-import per.san.mapper.DemoMapper;
-import per.san.service.IDemoService;
+import per.san.demo.domain.Demo;
+import per.san.demo.mapper.DemoMapper;
+import per.san.demo.service.IDemoService;
 
 import java.util.List;
 
@@ -16,6 +16,6 @@ public class DemoServiceImpl implements IDemoService {
 
     @Override
     public List<Demo> select() {
-        return demoMapper.select();
+        return demoMapper.select(new Demo());
     }
 }

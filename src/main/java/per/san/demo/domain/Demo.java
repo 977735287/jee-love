@@ -1,4 +1,4 @@
-package per.san.domain;
+package per.san.demo.domain;
 
 public class Demo {
     /**
