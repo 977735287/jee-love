@@ -23,12 +23,6 @@ public class DemoController {
     @Autowired
     IDemoService iDemoService;
 
-    @RequestMapping("/")
-    @ResponseBody
-    String home() {
-        return iDemoService.select().toString();
-    }
-
     @RequestMapping("/demo")
     @ResponseBody
     List<Demo> demo() {

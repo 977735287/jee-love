@@ -18,4 +18,5 @@ public class DemoServiceImpl implements IDemoService {
     public List<Demo> select() {
         return demoMapper.select(new Demo());
     }
+
 }

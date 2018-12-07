@@ -40,4 +40,5 @@
         <table tableName="demo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false"/>
     </context>
+
 </generatorConfiguration>
