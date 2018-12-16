@@ -1,7 +1,12 @@
 package per.san.demo.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
+
+@Table(name = "demo")
 public class Demo {
 
+    @Column
     private Long id;
 
     private String name;
