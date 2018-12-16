@@ -1,5 +1,9 @@
 package per.san.generate.domain;
 
+import per.san.common.CommonConstant;
+import per.san.common.utils.StringUtils;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,19 +22,19 @@ public class Table {
     private String tableName;
 
     /**
+     * 数据库引擎
+     */
+    private String engine;
+
+    /**
      * 表的备注
      */
     private String comments;
 
     /**
-     * 表的主键
+     * 创建时间
      */
-    private Column pk;
-
-    /**
-     * 表的列名(不包含主键)
-     */
-    private List<Column> columns;
+    private Date createTime;
 
     /**
      * 类名(第一个字母大写)，如：sys_user => SysUser
@@ -38,9 +42,20 @@ public class Table {
     private String className;
 
     /**
-     * 类名(第一个字母小写)，如：sys_user => sysUser
+     * 是否存在日期类型列
+     * 0:不存在  1：存在
      */
-    private String classname;
+    private Integer existDate;
+
+    /**
+     * 表的主键
+     */
+    private Column pk;
+
+    /**
+     * 表的列名
+     */
+    private List<Column> columns;
 
     public String getTableName() {
         return tableName;
@@ -48,6 +63,14 @@ public class Table {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
+    }
+
+    public String getEngine() {
+        return engine;
+    }
+
+    public void setEngine(String engine) {
+        this.engine = engine;
     }
 
     public String getComments() {
@@ -58,12 +81,36 @@ public class Table {
         this.comments = comments;
     }
 
-    public Column getPk() {
-        return pk;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setPk(Column pk) {
-        this.pk = pk;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getClassName() {
+        return StringUtils.replaceUnderLineAndUpperCase(this.tableName);
+    }
+
+    public Integer getExistDate() {
+        if(this.columns != null){
+            for (Column column : this.columns) {
+                if(CommonConstant.DATE.equalsIgnoreCase(column.getAttrType()))
+                    return 1;
+            }
+        }
+        return 0;
+    }
+
+    public Column getPk() {
+        if(this.columns != null){
+            for (Column column : this.columns) {
+                if(CommonConstant.PRIMARY_KEY.equalsIgnoreCase(column.getColumnKey()))
+                    return column;
+            }
+        }
+        return null;
     }
 
     public List<Column> getColumns() {
@@ -72,21 +119,5 @@ public class Table {
 
     public void setColumns(List<Column> columns) {
         this.columns = columns;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public String getClassname() {
-        return classname;
-    }
-
-    public void setClassname(String classname) {
-        this.classname = classname;
     }
 }

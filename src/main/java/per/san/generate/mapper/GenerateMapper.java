@@ -21,7 +21,7 @@ public interface GenerateMapper {
      * @param table
      * @return 数据库表的map
      */
-    List<Map<String, Object>> queryList(Table table);
+    List<Table> queryList(Table table);
 
     /**
      * description: 数据库表列表查询
@@ -29,7 +29,7 @@ public interface GenerateMapper {
      * @param tableName 表名
      * @return 数据库表的map
      */
-    Map<String, String> queryTable(String tableName);
+    Table queryTable(String tableName);
 
     /**
      * description: 数据库表列表查询

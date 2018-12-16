@@ -1,8 +1,11 @@
 package per.san.generate.service;
 
 import com.github.pagehelper.PageInfo;
-import per.san.common.utils.generate.PageRequest;
+import per.san.common.utils.page.PageRequest;
 import per.san.generate.domain.Table;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * description:
@@ -15,4 +18,8 @@ import per.san.generate.domain.Table;
 public interface IGenerateService {
 
     PageInfo<Table> queryPage(PageRequest pageRequest, Table table);
+
+    Table queryTable(String tableName);
+
+    List<Map<String, String>> queryColumns(String tableName);
 }

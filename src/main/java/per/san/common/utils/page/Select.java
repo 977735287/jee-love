@@ -1,4 +1,4 @@
-package per.san.common.utils.generate;
+package per.san.common.utils.page;
 
 import java.util.List;
 

@@ -1,24 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="per.san.generate.mapper.MySQLGenerateMapper">
-    <select id="queryList" resultType="java.util.Map">
-        select table_name tableName, engine, table_comment tableComment, create_time createTime
-        from information_schema.tables
-        where table_schema = (select database())
-        <if test="tableName != null and tableName.trim() != ''">
-            and table_name like concat('%', #{tableName}, '%')
-        </if>
-        order by create_time desc
+    <resultMap id="tableResultMap" type="per.san.generate.domain.Table">
+        <result property="tableName" column="table_name"/>
+        <result property="engine" column="engine"/>
+        <result property="comments" column="table_comment"/>
+        <result property="createTime" column="create_time"/>
+        <collection property="columns" ofType="per.san.generate.domain.Column">
+            <result property="columnName" column="column_name"/>
+            <result property="dataType" column="data_type"/>
+            <result property="comments" column="column_comment"/>
+            <result property="columnKey" column="column_key"/>
+            <result property="extra" column="extra"/>
+        </collection>
+    </resultMap>
+
+    <sql id="tableBaseSql">
+        ts.table_name, ts.engine, ts.table_comment, ts.create_time
+    </sql>
+
+    <sql id="columnBaseSql">
+        cs.column_name, cs.data_type, cs.column_comment, cs.column_key, cs.extra
+    </sql>
+
+    <select id="queryList" resultMap="tableResultMap">
+        select
+        <include refid="tableBaseSql"/>,
+        <include refid="columnBaseSql"/>
+        from (select ist.* from information_schema.tables ist
+              <where>
+                  <if test="tableName != null and tableName.trim() != ''">
+                      and ist.table_name like concat('%', #{tableName}, '%')
+                  </if>
+                  <if test="engine != null and engine.trim() != ''">
+                      and ist.engine = #{engine}
+                  </if>
+                  <if test="comments != null and comments.trim() != ''">
+                      and ist.table_comment like concat('%', #{comments}, '%')
+                  </if>
+              </where>
+        ) as ts left join information_schema.columns cs on cs.table_name = ts.table_name
+        <where>
+            ts.table_schema = (select database())
+        </where>
+        order by ts.create_time desc
     </select>
-    <select id="queryTable" resultType="java.util.Map">
-		select table_name tableName, engine, table_comment tableComment, create_time createTime
-		from information_schema.tables
-		where table_schema = (select database())
-		and table_name = #{tableName}
+
+    <select id="queryTable" resultMap="tableResultMap">
+        select
+        <include refid="tableBaseSql"/>,
+        <include refid="columnBaseSql"/>
+        from (select ist.* from information_schema.tables ist
+              where ist.table_name = #{tableName} limit 1
+        ) as ts left join information_schema.columns cs on cs.table_name = ts.table_name
+        <where>
+            ts.table_schema = (select database())
+        </where>
     </select>
+
     <select id="queryColumns" resultType="java.util.Map">
-		select column_name columnName, data_type dataType, column_comment columnComment,
-		       column_key columnKey, extra
+		select column_name, data_type, column_comment,
+		       column_key, extra
 		from information_schema.columns
  		where table_name = #{tableName}
  		and table_schema = (select database())

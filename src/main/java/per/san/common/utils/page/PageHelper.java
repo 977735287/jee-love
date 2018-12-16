@@ -1,4 +1,4 @@
-package per.san.common.utils.generate;
+package per.san.common.utils.page;
 
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.page.PageMethod;

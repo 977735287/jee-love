@@ -3,11 +3,15 @@ package per.san.generate.controller;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import per.san.common.utils.generate.PageRequest;
+import per.san.common.utils.page.PageRequest;
 import per.san.generate.domain.Table;
 import per.san.generate.service.IGenerateService;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * description:
@@ -30,5 +34,17 @@ public class GenerateController {
         PageRequest pageRequest = new PageRequest(0, 20);
         Table table = new Table();
         return iGenerateService.queryPage(pageRequest, table);
+    }
+
+    @RequestMapping("/table/{name}")
+    @ResponseBody
+    public Table queryTable(@PathVariable("name") String name) {
+        return iGenerateService.queryTable(name);
+    }
+
+    @RequestMapping("/table1/{name}")
+    @ResponseBody
+    public List<Map<String, String>> queryColumns(@PathVariable("name") String name) {
+        return iGenerateService.queryColumns(name);
     }
 }
