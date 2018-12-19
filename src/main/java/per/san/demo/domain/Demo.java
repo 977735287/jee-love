@@ -1,12 +1,13 @@
 package per.san.demo.domain;
 
-import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "demo")
 public class Demo {
 
-    @Column
+    @Id
     private Long id;
 
     private String name;

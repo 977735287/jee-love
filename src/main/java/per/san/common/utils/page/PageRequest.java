@@ -12,10 +12,18 @@ public class PageRequest {
 
     private int page;
     private int size;
+    private String sort;
+
+    public PageRequest() {}
 
     public PageRequest(int page, int size) {
+        this(page, size, null);
+    }
+
+    public PageRequest(int page, int size, String sort) {
         this.page = page;
         this.size = size;
+        this.sort = sort;
     }
 
     public int getPage() {
@@ -32,5 +40,13 @@ public class PageRequest {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 }

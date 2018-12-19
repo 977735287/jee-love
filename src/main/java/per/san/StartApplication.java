@@ -14,7 +14,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * lastUpdateBy: sanchar
  * lastUpdateDate: 12/5/2018
  */
-@MapperScan(basePackages = {"per.san.*.mapper", "per.san.*.mapper.*"})
+@MapperScan(basePackages = {"per.san.*.mapper", "per.san.*.mapper.*", "per.san.common.config.*"})
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan

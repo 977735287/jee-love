@@ -96,21 +96,20 @@ public class Table {
     public Integer getExistDate() {
         if(this.columns != null){
             for (Column column : this.columns) {
-                if(CommonConstant.DATE.equalsIgnoreCase(column.getAttrType()))
+                if(CommonConstant.DATE.equalsIgnoreCase(column.getAttrType())) {
                     return 1;
+                }
             }
         }
         return 0;
     }
 
     public Column getPk() {
-        if(this.columns != null){
-            for (Column column : this.columns) {
-                if(CommonConstant.PRIMARY_KEY.equalsIgnoreCase(column.getColumnKey()))
-                    return column;
-            }
-        }
-        return null;
+        return pk;
+    }
+
+    public void setPk(Column pk) {
+        this.pk = pk;
     }
 
     public List<Column> getColumns() {

@@ -1,5 +1,13 @@
 package per.san.common.utils;
 
+/**
+ * description: String工具类
+ *
+ * @author shencai.huang@hand-china.com
+ * @date 12/18/2018 19:47
+ * lastUpdateBy: shencai.huang@hand-china.com
+ * lastUpdateDate: 12/18/2018
+ */
 public class StringUtils extends org.springframework.util.StringUtils {
 
     public static String replaceUnderLine(String str){

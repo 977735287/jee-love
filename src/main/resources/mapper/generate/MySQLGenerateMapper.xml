@@ -6,6 +6,13 @@
         <result property="engine" column="engine"/>
         <result property="comments" column="table_comment"/>
         <result property="createTime" column="create_time"/>
+        <association property="pk" javaType="per.san.generate.domain.Column">
+            <result property="columnName" column="pk_column_name"/>
+            <result property="dataType" column="pk_data_type"/>
+            <result property="comments" column="pk_column_comment"/>
+            <result property="columnKey" column="pk_column_key"/>
+            <result property="extra" column="pk_extra"/>
+        </association>
         <collection property="columns" ofType="per.san.generate.domain.Column">
             <result property="columnName" column="column_name"/>
             <result property="dataType" column="data_type"/>
@@ -20,6 +27,8 @@
     </sql>
 
     <sql id="columnBaseSql">
+        pk.column_name as pk_column_name, pk.data_type as pk_data_type,
+        pk.column_comment as pk_column_comment, pk.column_key as pk_column_key, pk.extra as pk_extra,
         cs.column_name, cs.data_type, cs.column_comment, cs.column_key, cs.extra
     </sql>
 
@@ -38,10 +47,11 @@
                   <if test="comments != null and comments.trim() != ''">
                       and ist.table_comment like concat('%', #{comments}, '%')
                   </if>
+                  ist.table_schema = (select database())
               </where>
         ) as ts left join information_schema.columns cs on cs.table_name = ts.table_name
         <where>
-            ts.table_schema = (select database())
+            cs.table_schema = (select database())
         </where>
         order by ts.create_time desc
     </select>
@@ -51,10 +61,16 @@
         <include refid="tableBaseSql"/>,
         <include refid="columnBaseSql"/>
         from (select ist.* from information_schema.tables ist
-              where ist.table_name = #{tableName} limit 1
-        ) as ts left join information_schema.columns cs on cs.table_name = ts.table_name
+              where ist.table_name = #{tableName}
+              and ist.table_schema = (select database()) limit 1
+        ) as ts, information_schema.columns pk
+        left join information_schema.columns cs on cs.table_name = #{tableName}
         <where>
-            ts.table_schema = (select database())
+            and cs.table_schema = (select database())
+            and pk.table_schema = (select database())
+            and pk.table_name = #{tableName}
+            and pk.column_key = 'PRI'
+            and cs.column_key &lt;&gt; 'PRI'
         </where>
     </select>
 

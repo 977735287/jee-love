@@ -20,6 +20,16 @@ public class CommonConstant {
      */
     public static final String DATE = "DATE";
 
+    /**
+     * 斜杠
+     */
+    public static final String SLASH = "/";
+
+    /**
+     * 反斜杠
+     */
+    public static final String BACK_SLASH = "\\";
+
     private CommonConstant() {
     }
 }

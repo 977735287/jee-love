@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import per.san.common.utils.CodeGenerateUtils;
+import per.san.common.utils.PropertiesUtils;
 import per.san.common.utils.page.PageHelper;
 import per.san.common.utils.page.PageRequest;
 import per.san.generate.domain.Table;
@@ -34,10 +35,9 @@ public class GenerateServiceImpl implements IGenerateService {
 
     @Override
     public Table queryTable(String tableName) {
-        String packageName = "\\per\\san\\demo\\domain\\";
         Table table = mySQLGenerateMapper.queryTable(tableName);
         try {
-            CodeGenerateUtils.generateModelFile(table, packageName);
+            CodeGenerateUtils.generate(table);
         } catch (Exception e) {
             e.printStackTrace();
         }

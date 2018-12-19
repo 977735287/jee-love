@@ -2,13 +2,17 @@ package per.san.generate.controller;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import per.san.common.utils.page.CustomPageRequest;
 import per.san.common.utils.page.PageRequest;
 import per.san.generate.domain.Table;
 import per.san.generate.service.IGenerateService;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.Map;
@@ -22,27 +26,27 @@ import java.util.Map;
  * lastUpdateDate: 12/13/2018
  */
 
-@Controller
+@RestController
 public class GenerateController {
 
     @Autowired
     IGenerateService iGenerateService;
 
-    @RequestMapping("/test")
+    @GetMapping("/test")
+    @CustomPageRequest
     @ResponseBody
-    public PageInfo<Table> queryPage() {
-        PageRequest pageRequest = new PageRequest(0, 20);
+    public PageInfo<Table> queryPage(@ApiIgnore PageRequest pageRequest) {
         Table table = new Table();
         return iGenerateService.queryPage(pageRequest, table);
     }
 
-    @RequestMapping("/table/{name}")
+    @PostMapping("/table/{name}")
     @ResponseBody
     public Table queryTable(@PathVariable("name") String name) {
         return iGenerateService.queryTable(name);
     }
 
-    @RequestMapping("/table1/{name}")
+    @GetMapping("/table1/{name}")
     @ResponseBody
     public List<Map<String, String>> queryColumns(@PathVariable("name") String name) {
         return iGenerateService.queryColumns(name);

@@ -1,6 +1,7 @@
 package per.san.common.utils;
 
 import freemarker.template.Template;
+import per.san.common.CommonConstant;
 import per.san.generate.domain.Table;
 
 import java.io.BufferedWriter;
@@ -22,20 +23,91 @@ import java.util.Map;
  */
 public class CodeGenerateUtils {
 
-    private static final String AUTHOR = "shencai.huang@hand-china.com";
+    private static final String AUTHOR = "sanchar";
 
-    private static final Date CURRENT_DATE = new Date();
+    private static Date CURRENT_DATE;
 
-    public static void generateModelFile(Table table, String packageName) throws Exception{
-        final String suffix = ".java";
-        final String path = "C:\\workspaces\\idea\\jee-love\\src\\main\\java\\" + packageName + table.getClassName() + suffix;
-        final String templateName = "Model.ftl";
-        File ModelFile = new File(path);
-        Map<String,Object> dataMap = new HashMap<>();
+    private static String TARGET_PATH;
+
+    private static String PACKAGE_PATH;
+
+    private static String MAPPER_XML_PATH;
+
+    static {
+        CURRENT_DATE = new Date();
+        TARGET_PATH = System.getProperty("user.dir") + "\\src\\main\\";
+        PACKAGE_PATH = "per\\san\\demo\\";
+        MAPPER_XML_PATH = "mapper\\demo\\";
+    }
+
+    public static void generate(Table table){
+        generateModelFile(table);
+        generateMapperXmlFile(table);
+        generateMapperFile(table);
+        generateServiceImplFile(table);
+        generateServiceFile(table);
+        generateControllerFile(table);
+    }
+
+    private static void generateModelFile(Table table){
+        String suffix = ".java";
+        String path = TARGET_PATH + "java\\" + PACKAGE_PATH + "domain\\" + table.getClassName() + suffix;
+        String templateName = "Model.ftl";
+        generateFile(table, path, PACKAGE_PATH, templateName);
+    }
+
+    private static void generateMapperXmlFile(Table table){
+        String suffix = "Mapper.xml";
+        String path = TARGET_PATH + "resources\\" + MAPPER_XML_PATH + table.getClassName() + suffix;
+        String templateName = "MapperXml.ftl";
+        generateFile(table, path, PACKAGE_PATH, templateName);
+    }
+
+    private static void generateMapperFile(Table table){
+        String suffix = "Mapper.java";
+        String path = TARGET_PATH + "java\\" + PACKAGE_PATH + "mapper\\" + table.getClassName() + suffix;
+        String templateName = "Mapper.ftl";
+        generateFile(table, path, PACKAGE_PATH, templateName);
+    }
+
+    private static void generateServiceImplFile(Table table){
+        String suffix = "ServiceImpl.java";
+        String path = TARGET_PATH + "java\\" + PACKAGE_PATH + "service\\impl\\" + table.getClassName() + suffix;
+        String templateName = "ServiceImpl.ftl";
+        generateFile(table, path, PACKAGE_PATH, templateName);
+    }
+
+    private static void generateServiceFile(Table table){
+        String suffix = "Service.java";
+        String path = TARGET_PATH + "java\\" + PACKAGE_PATH + "service\\I" + table.getClassName() + suffix;
+        String templateName = "Service.ftl";
+        generateFile(table, path, PACKAGE_PATH, templateName);
+    }
+
+    private static void generateControllerFile(Table table){
+        String suffix = "Controller.java";
+        String path = TARGET_PATH + "java\\" + PACKAGE_PATH + "controller\\" + table.getClassName() + suffix;
+        String templateName = "Controller.ftl";
+        generateFile(table, path, PACKAGE_PATH, templateName);
+    }
+
+    private static void generateFile(Table table, String path, String packagePath, String templateName){
+        File file = new File(path);
+        Map<String,Object> dataMap = new HashMap<>(2);
         dataMap.put("table",table);
-        dataMap.put("packageName","per.san.demo.domain");
-        generateFileByTemplate(templateName,ModelFile,dataMap);
-
+        String packageName = packagePath.substring(0, packagePath.length()-1);
+        if(packageName.contains(CommonConstant.SLASH)){
+            packageName = packageName.replace(CommonConstant.SLASH, ".");
+        }
+        if(packageName.contains(CommonConstant.BACK_SLASH)){
+            packageName = packageName.replace(CommonConstant.BACK_SLASH, ".");
+        }
+        dataMap.put("packageName",packageName);
+        try {
+            generateFileByTemplate(templateName,file,dataMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void generateFileByTemplate(final String templateName, File file, Map<String, Object> dataMap) throws Exception {
