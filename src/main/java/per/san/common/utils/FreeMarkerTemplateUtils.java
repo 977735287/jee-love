@@ -8,6 +8,14 @@ import freemarker.template.TemplateExceptionHandler;
 
 import java.io.IOException;
 
+/**
+ * description: 模板加载
+ *
+ * @author shencai.huang@hand-china.com
+ * @date 12/10/2018 17:10
+ * lastUpdateBy: shencai.huang@hand-china.com
+ * lastUpdateDate: 12/10/2018
+ */
 public class FreeMarkerTemplateUtils {
     private FreeMarkerTemplateUtils(){}
     private static final Configuration CONFIGURATION = new Configuration(Configuration.VERSION_2_3_22);

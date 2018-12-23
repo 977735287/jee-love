@@ -1,7 +1,7 @@
 package per.san.common.utils.page;
 
 /**
- * description:
+ * description: 分页参数
  *
  * @author shencai.huang@hand-china.com
  * @date 12/12/2018 19:26
