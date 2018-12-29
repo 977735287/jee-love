@@ -54,4 +54,9 @@ public class ${table.className}ServiceImpl implements I${table.className}Service
     public List<${table.className}> queryList(${table.className} ${table.className?uncap_first}) {
         return ${table.className?uncap_first}Mapper.select(${table.className?uncap_first});
     }
+
+    @Override
+    public ${table.className} queryById(Long id) {
+    return ${table.className?uncap_first}Mapper.selectByPrimaryKey(id);
+    }
 }

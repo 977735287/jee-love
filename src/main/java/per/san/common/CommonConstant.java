@@ -30,6 +30,11 @@ public class CommonConstant {
      */
     public static final String BACK_SLASH = "\\";
 
+    /**
+     * 点
+     */
+    public static final String POINT = ".";
+
     private CommonConstant() {
     }
 }

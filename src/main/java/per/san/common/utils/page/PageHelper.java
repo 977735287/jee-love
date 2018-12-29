@@ -23,4 +23,11 @@ public class PageHelper extends PageMethod {
         PageInfo<E> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
+
+    public static <E> PageInfo<E> doPageAndSort(PageRequest pageRequest, Select select) {
+        startPage(pageRequest.getPage(), pageRequest.getSize(), pageRequest.getSort());
+        List<E> list = select.doSelect();
+        PageInfo<E> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
 }

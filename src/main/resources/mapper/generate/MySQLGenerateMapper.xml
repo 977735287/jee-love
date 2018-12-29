@@ -36,41 +36,47 @@
         select
         <include refid="tableBaseSql"/>,
         <include refid="columnBaseSql"/>
-        from (select ist.* from information_schema.tables ist
-              <where>
-                  <if test="tableName != null and tableName.trim() != ''">
-                      and ist.table_name like concat('%', #{tableName}, '%')
-                  </if>
-                  <if test="engine != null and engine.trim() != ''">
-                      and ist.engine = #{engine}
-                  </if>
-                  <if test="comments != null and comments.trim() != ''">
-                      and ist.table_comment like concat('%', #{comments}, '%')
-                  </if>
-                  ist.table_schema = (select database())
-              </where>
-        ) as ts left join information_schema.columns cs on cs.table_name = ts.table_name
+        from information_schema.tables ts
+        left join information_schema.columns pk on pk.table_name = ts.table_name and pk.column_key = 'PRI'
+        left join information_schema.columns cs on cs.table_name = ts.table_name and cs.column_key &lt;&gt; 'PRI'
         <where>
-            cs.table_schema = (select database())
+            and ts.table_schema = (select database())
+            and cs.table_schema = (select database())
+            and pk.table_schema = (select database())
+            and ts.table_name &lt;&gt; 'databasechangeloglock'
+            and ts.table_name &lt;&gt; 'databasechangelog'
+            <if test="tableName != null and tableName.trim() != ''">
+                and ts.table_name like concat('%', #{tableName}, '%')
+            </if>
+            <if test="engine != null and engine.trim() != ''">
+                and ts.engine = #{engine}
+            </if>
+            <if test="comments != null and comments.trim() != ''">
+                and ts.table_comment like concat('%', #{comments}, '%')
+            </if>
         </where>
-        order by ts.create_time desc
     </select>
 
     <select id="queryTable" resultMap="tableResultMap">
         select
         <include refid="tableBaseSql"/>,
         <include refid="columnBaseSql"/>
-        from (select ist.* from information_schema.tables ist
-              where ist.table_name = #{tableName}
-              and ist.table_schema = (select database()) limit 1
-        ) as ts, information_schema.columns pk
-        left join information_schema.columns cs on cs.table_name = #{tableName}
+        from information_schema.tables ts
+        left join information_schema.columns pk on pk.table_name = ts.table_name and pk.column_key = 'PRI'
+        left join information_schema.columns cs on cs.table_name = ts.table_name and cs.column_key &lt;&gt; 'PRI'
         <where>
+            and ts.table_schema = (select database())
             and cs.table_schema = (select database())
             and pk.table_schema = (select database())
-            and pk.table_name = #{tableName}
-            and pk.column_key = 'PRI'
-            and cs.column_key &lt;&gt; 'PRI'
+            <if test="tableNames != null and tableNames.size() != 0">
+                and ts.table_name in
+                <foreach collection="tableNames" item="name" open="(" close=")" separator=",">
+                    #{name}
+                </foreach>
+            </if>
+            <if test="tableNames == null or tableNames.size() == 0">
+                and ts.table_name is null
+            </if>
         </where>
     </select>
 

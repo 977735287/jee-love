@@ -59,4 +59,11 @@ public interface I${table.className}Service {
     */
     List<${table.className}> queryList(${table.className} ${table.className?uncap_first});
 
+    /**
+    * description: 根据ID查询
+    * @param id 查询数据的ID
+    * @return 数据对象
+    */
+    ${table.className} queryById(Long id);
+
 }

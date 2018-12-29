@@ -1,11 +1,12 @@
 package per.san.demo.domain;
 
-import javax.persistence.GeneratedValue;
+import per.san.sys.domain.BaseDomain;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "demo")
-public class Demo {
+public class Demo extends BaseDomain {
 
     @Id
     private Long id;

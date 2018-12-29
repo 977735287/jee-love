@@ -4,7 +4,7 @@ spring:
   application:
     name: jee-love
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/jee-love?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=yes
+    url: jdbc:mysql://111.231.74.237:3306/jee_love?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=yes
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver

@@ -1,18 +1,18 @@
-package per.san.demo.service;
+package per.san.sys.service;
 
 import com.github.pagehelper.PageInfo;
 import per.san.common.utils.page.PageRequest;
-import per.san.demo.domain.SysUser;
+import per.san.sys.domain.SysUser;
 
 import java.util.List;
 
 /**
- * description: 用户信息
+ * description: 用户信息表
  *
  * @author sanchar
- * @date 2018-12-18 01:43
+ * @date 2018-12-28 05:03
  * lastUpdateBy: sanchar
- * lastUpdateDate: 2018-12-18 01:43
+ * lastUpdateDate: 2018-12-28 05:03
  */
 public interface ISysUserService {
 
@@ -58,5 +58,12 @@ public interface ISysUserService {
     * @return 数据List
     */
     List<SysUser> queryList(SysUser sysUser);
+
+    /**
+    * description: 根据ID查询
+    * @param id 查询数据的ID
+    * @return 数据对象
+    */
+    SysUser queryById(Long id);
 
 }

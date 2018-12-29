@@ -53,4 +53,9 @@ public class DemoServiceImpl implements IDemoService {
     public List<Demo> queryList(Demo demo) {
         return demoMapper.select(demo);
     }
+
+    @Override
+    public Demo queryById(Long id) {
+        return demoMapper.selectByPrimaryKey(id);
+    }
 }

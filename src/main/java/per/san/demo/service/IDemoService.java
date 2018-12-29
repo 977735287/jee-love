@@ -59,4 +59,11 @@ public interface IDemoService {
      */
     List<Demo> queryList(Demo demo);
 
+    /**
+     * description: 根据ID查询
+     * @param id 查询数据的ID
+     * @return 数据List
+     */
+    Demo queryById(Long id);
+
 }

@@ -1,23 +1,23 @@
-package per.san.demo.service.impl;
+package per.san.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import per.san.common.utils.page.PageHelper;
 import per.san.common.utils.page.PageRequest;
-import per.san.demo.domain.SysUser;
-import per.san.demo.mapper.SysUserMapper;
-import per.san.demo.service.ISysUserService;
+import per.san.sys.domain.SysUser;
+import per.san.sys.mapper.SysUserMapper;
+import per.san.sys.service.ISysUserService;
 
 import java.util.List;
 
 /**
- * description: 用户信息
+ * description: 用户信息表
  *
  * @author sanchar
- * @date 2018-12-18 01:43
+ * @date 2018-12-28 05:03
  * lastUpdateBy: sanchar
- * lastUpdateDate: 2018-12-18 01:43
+ * lastUpdateDate: 2018-12-28 05:03
  */
 @Service
 public class SysUserServiceImpl implements ISysUserService {
@@ -53,5 +53,10 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public List<SysUser> queryList(SysUser sysUser) {
         return sysUserMapper.select(sysUser);
+    }
+
+    @Override
+    public SysUser queryById(Long id) {
+    return sysUserMapper.selectByPrimaryKey(id);
     }
 }

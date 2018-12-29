@@ -1,17 +1,26 @@
 package per.san.common.utils;
 
 import freemarker.template.Template;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import per.san.common.CommonConstant;
+import per.san.generate.domain.Column;
 import per.san.generate.domain.Table;
+import per.san.sys.domain.BaseDomain;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * description: 代码生成器
@@ -22,6 +31,8 @@ import java.util.Map;
  * lastUpdateDate: 12/10/2018
  */
 public class CodeGenerateUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(CodeGenerateUtils.class);
 
     private static final String AUTHOR = "sanchar";
 
@@ -35,76 +46,100 @@ public class CodeGenerateUtils {
 
     static {
         CURRENT_DATE = new Date();
-        TARGET_PATH = System.getProperty("user.dir") + "\\src\\main\\";
-        PACKAGE_PATH = "per\\san\\demo\\";
-        MAPPER_XML_PATH = "mapper\\demo\\";
+        TARGET_PATH = System.getProperty("user.dir") + "\\src\\main";
+        PACKAGE_PATH = "per\\san\\example";
+        MAPPER_XML_PATH = "mapper\\example";
     }
 
-    public static void generate(Table table){
-        generateModelFile(table);
-        generateMapperXmlFile(table);
-        generateMapperFile(table);
-        generateServiceImplFile(table);
-        generateServiceFile(table);
-        generateControllerFile(table);
+    public static void generate(List<Table> tables) {
+        generate(tables, TARGET_PATH, PACKAGE_PATH, MAPPER_XML_PATH);
     }
 
-    private static void generateModelFile(Table table){
+    /**
+     * description: 代码生成
+     *
+     * @param tables        表属性信息
+     * @param targetPath    代码生成项目路径
+     * @param packagePath   代码生成包路径
+     * @param mapperXmlPath 代码生成mapper.xml包路径
+     */
+    public static void generate(List<Table> tables, String targetPath, String packagePath, String mapperXmlPath) {
+        TARGET_PATH = targetPath;
+        PACKAGE_PATH = packagePath;
+        MAPPER_XML_PATH = mapperXmlPath;
+        List<String> fields = getBaseDomainFields();
+        tables.forEach(item -> {
+            List<Column> list = item.getColumns().stream().filter(column
+                    -> !fields.contains(column.getAttrName())).collect(Collectors.toList());
+            item.setColumns(list);
+            generateModelFile(item, TARGET_PATH, PACKAGE_PATH);
+            generateMapperFile(item, TARGET_PATH, PACKAGE_PATH);
+            generateServiceFile(item, TARGET_PATH, PACKAGE_PATH);
+            generateServiceImplFile(item, TARGET_PATH, PACKAGE_PATH);
+            generateControllerFile(item, TARGET_PATH, PACKAGE_PATH);
+            generateMapperXmlFile(item, TARGET_PATH, PACKAGE_PATH, MAPPER_XML_PATH);
+        });
+    }
+
+    private static void generateModelFile(Table table, String targetPath, String packagePath) {
         String suffix = ".java";
-        String path = TARGET_PATH + "java\\" + PACKAGE_PATH + "domain\\" + table.getClassName() + suffix;
+        String path = targetPath + "\\java\\" + packagePath + "\\domain\\" + table.getClassName() + suffix;
         String templateName = "Model.ftl";
-        generateFile(table, path, PACKAGE_PATH, templateName);
+        generateFile(table, path, packagePath, templateName);
     }
 
-    private static void generateMapperXmlFile(Table table){
+    private static void generateMapperXmlFile(Table table, String targetPath, String packagePath, String mapperXmlPath) {
         String suffix = "Mapper.xml";
-        String path = TARGET_PATH + "resources\\" + MAPPER_XML_PATH + table.getClassName() + suffix;
+        String path = targetPath + "\\resources\\" + mapperXmlPath + "\\" + table.getClassName() + suffix;
         String templateName = "MapperXml.ftl";
-        generateFile(table, path, PACKAGE_PATH, templateName);
+        generateFile(table, path, packagePath, templateName);
     }
 
-    private static void generateMapperFile(Table table){
+    private static void generateMapperFile(Table table, String targetPath, String packagePath) {
         String suffix = "Mapper.java";
-        String path = TARGET_PATH + "java\\" + PACKAGE_PATH + "mapper\\" + table.getClassName() + suffix;
+        String path = targetPath + "\\java\\" + packagePath + "\\mapper\\" + table.getClassName() + suffix;
         String templateName = "Mapper.ftl";
-        generateFile(table, path, PACKAGE_PATH, templateName);
+        generateFile(table, path, packagePath, templateName);
     }
 
-    private static void generateServiceImplFile(Table table){
+    private static void generateServiceImplFile(Table table, String targetPath, String packagePath) {
         String suffix = "ServiceImpl.java";
-        String path = TARGET_PATH + "java\\" + PACKAGE_PATH + "service\\impl\\" + table.getClassName() + suffix;
+        String path = targetPath + "\\java\\" + packagePath + "\\service\\impl\\" + table.getClassName() + suffix;
         String templateName = "ServiceImpl.ftl";
-        generateFile(table, path, PACKAGE_PATH, templateName);
+        generateFile(table, path, packagePath, templateName);
     }
 
-    private static void generateServiceFile(Table table){
+    private static void generateServiceFile(Table table, String targetPath, String packagePath) {
         String suffix = "Service.java";
-        String path = TARGET_PATH + "java\\" + PACKAGE_PATH + "service\\I" + table.getClassName() + suffix;
+        String path = targetPath + "\\java\\" + packagePath + "\\service\\I" + table.getClassName() + suffix;
         String templateName = "Service.ftl";
-        generateFile(table, path, PACKAGE_PATH, templateName);
+        generateFile(table, path, packagePath, templateName);
     }
 
-    private static void generateControllerFile(Table table){
+    private static void generateControllerFile(Table table, String targetPath, String packagePath) {
         String suffix = "Controller.java";
-        String path = TARGET_PATH + "java\\" + PACKAGE_PATH + "controller\\" + table.getClassName() + suffix;
+        String path = targetPath + "\\java\\" + packagePath + "\\controller\\" + table.getClassName() + suffix;
         String templateName = "Controller.ftl";
-        generateFile(table, path, PACKAGE_PATH, templateName);
+        generateFile(table, path, packagePath, templateName);
     }
 
-    private static void generateFile(Table table, String path, String packagePath, String templateName){
-        File file = new File(path);
-        Map<String,Object> dataMap = new HashMap<>(2);
-        dataMap.put("table",table);
-        String packageName = packagePath.substring(0, packagePath.length()-1);
-        if(packageName.contains(CommonConstant.SLASH)){
+    private static void generateFile(Table table, String path, String packagePath, String templateName) {
+        logger.info(path);
+        Map<String, Object> dataMap = new HashMap<>(2);
+        dataMap.put("table", table);
+        String packageName = packagePath;
+        if (packageName.contains(CommonConstant.BACK_SLASH)) {
+            packageName = packageName.replace(CommonConstant.BACK_SLASH, ".");
+        } else if (packageName.contains(CommonConstant.SLASH)) {
             packageName = packageName.replace(CommonConstant.SLASH, ".");
         }
-        if(packageName.contains(CommonConstant.BACK_SLASH)){
-            packageName = packageName.replace(CommonConstant.BACK_SLASH, ".");
+        File file = new File(path);
+        if (!file.exists()){
+            file.getParentFile().mkdirs();
         }
-        dataMap.put("packageName",packageName);
+        dataMap.put("packageName", packageName);
         try {
-            generateFileByTemplate(templateName,file,dataMap);
+            generateFileByTemplate(templateName, file, dataMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,5 +152,20 @@ public class CodeGenerateUtils {
         dataMap.put("date", CURRENT_DATE);
         Writer out = new BufferedWriter(new OutputStreamWriter(fos, "utf-8"), 10240);
         template.process(dataMap, out);
+        out.flush();
+        out.close();
+    }
+
+    /**
+     * BaseDomain的列属性
+     */
+    public static List<String> getBaseDomainFields() {
+        Class<?> clz = new BaseDomain().getClass();
+        Field[] fields = clz.getDeclaredFields();
+        List<String> list = new ArrayList<>();
+        for (Field field : fields) {
+            list.add(StringUtils.capitalize(field.getName()));
+        }
+        return list;
     }
 }

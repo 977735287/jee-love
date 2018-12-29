@@ -37,7 +37,7 @@ public class Table {
     private Date createTime;
 
     /**
-     * 类名(第一个字母大写)，如：sys_user => SysUser
+     * 类名(第一个字母大写)，如：sys_users => SysUsers
      */
     private String className;
 
@@ -94,9 +94,10 @@ public class Table {
     }
 
     public Integer getExistDate() {
-        if(this.columns != null){
-            for (Column column : this.columns) {
-                if(CommonConstant.DATE.equalsIgnoreCase(column.getAttrType())) {
+        List<Column> list = this.getColumns();
+        if (list != null) {
+            for (Column column : list) {
+                if (CommonConstant.DATE.equalsIgnoreCase(column.getAttrType())) {
                     return 1;
                 }
             }

@@ -1,10 +1,12 @@
 package per.san.generate.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import per.san.common.CommonConstant;
 import per.san.common.utils.CodeGenerateUtils;
-import per.san.common.utils.PropertiesUtils;
 import per.san.common.utils.page.PageHelper;
 import per.san.common.utils.page.PageRequest;
 import per.san.generate.domain.Table;
@@ -25,23 +27,44 @@ import java.util.Map;
 @Service
 public class GenerateServiceImpl implements IGenerateService {
 
+    private static final Logger logger = LoggerFactory.getLogger(GenerateServiceImpl.class);
+
     @Autowired
     MySQLGenerateMapper mySQLGenerateMapper;
 
     @Override
     public PageInfo<Table> queryPage(PageRequest pageRequest, Table table) {
-        return PageHelper.doPage(pageRequest, () -> mySQLGenerateMapper.queryList(table));
+        return PageHelper.doPageAndSort(pageRequest, () -> mySQLGenerateMapper.queryList(table));
     }
 
     @Override
-    public Table queryTable(String tableName) {
-        Table table = mySQLGenerateMapper.queryTable(tableName);
+    public List<Table> generate(List<String> tableNames) {
+        List<Table> tables = mySQLGenerateMapper.queryTable(tableNames);
         try {
-            CodeGenerateUtils.generate(table);
+            CodeGenerateUtils.generate(tables);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return table;
+        return tables;
+    }
+
+    @Override
+    public List<Table> generateBatch(List<String> tableNames, String packagePath, String mapperXmlPath) {
+        List<Table> tables = mySQLGenerateMapper.queryTable(tableNames);
+        try {
+            String targetPath = System.getProperty("user.dir") + "\\src\\main";
+            logger.info(targetPath);
+            if(packagePath.contains(CommonConstant.POINT)){
+                packagePath = packagePath.replace(CommonConstant.POINT, CommonConstant.BACK_SLASH);
+            }
+            if(mapperXmlPath.contains(CommonConstant.POINT)){
+                mapperXmlPath = mapperXmlPath.replace(CommonConstant.POINT, CommonConstant.BACK_SLASH);
+            }
+            CodeGenerateUtils.generate(tables, targetPath, packagePath, mapperXmlPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tables;
     }
 
     @Override

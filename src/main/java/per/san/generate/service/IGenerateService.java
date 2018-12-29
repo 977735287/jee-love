@@ -19,7 +19,9 @@ public interface IGenerateService {
 
     PageInfo<Table> queryPage(PageRequest pageRequest, Table table);
 
-    Table queryTable(String tableName);
+    List<Table> generate(List<String> tableNames);
+
+    List<Table> generateBatch(List<String> tableNames, String packagePath, String mapperXmlPath);
 
     List<Map<String, String>> queryColumns(String tableName);
 }

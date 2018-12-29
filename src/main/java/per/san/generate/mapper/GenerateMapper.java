@@ -1,5 +1,6 @@
 package per.san.generate.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import per.san.generate.domain.Table;
 
 import java.util.List;
@@ -26,10 +27,10 @@ public interface GenerateMapper {
     /**
      * description: 数据库表列表查询
      *
-     * @param tableName 表名
+     * @param tableNames 表名list
      * @return 数据库表的map
      */
-    Table queryTable(String tableName);
+    List<Table> queryTable(@Param("tableNames") List<String> tableNames);
 
     /**
      * description: 数据库表列表查询

@@ -83,4 +83,12 @@ public class DemoController {
         demo.setPassword(password);
         return new ResponseEntity<>(iDemoService.queryList(demo), HttpStatus.OK);
     }
+
+    @ApiOperation(value = "根据ID查询")
+    @GetMapping("/{id}")
+    public ResponseEntity<Demo> queryById(
+            @PathVariable("id") Long id) {
+        return new ResponseEntity<>(iDemoService.queryById(id), HttpStatus.OK);
+    }
+
 }
