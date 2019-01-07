@@ -24,6 +24,13 @@ public interface ISysPermissionService {
     Integer add(SysPermission sysPermission);
 
     /**
+     * description: 批量新增
+     * @param sysPermissions 新增的信息
+     * @return 新增成功的条数
+     */
+    Integer addBatch(List<SysPermission> sysPermissions);
+
+    /**
      * description: 根据主键id删除
      * @param id 删除数据的id
      * @return 删除成功的条数
@@ -43,6 +50,13 @@ public interface ISysPermissionService {
     * @return 更新成功的条数
     */
     Integer update(SysPermission sysPermission);
+
+    /**
+     * description: 批量更新
+     * @param sysPermissions 更新的信息
+     * @return 更新成功的条数
+     */
+    Integer updateBatch(List<SysPermission> sysPermissions);
 
     /**
     * description: 分页查询

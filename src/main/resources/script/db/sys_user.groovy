@@ -27,7 +27,7 @@ databaseChangeLog(logicalFilePath: 'sys_user.groovy') {
                 constraints(nullable: 'false')
             }
             column(name: 'last_login_at', type: 'datetime', remarks: '上一次登陆时间')
-            column(name: 'is_enabled', type: 'Tinyint(3)', defaultValue: '0', remarks: '用户是否启用。1启用，0未启用') {
+            column(name: 'is_enabled', type: 'Tinyint(3)', defaultValue: '1', remarks: '用户是否启用。1启用，0未启用') {
                 constraints(nullable: 'false')
             }
             column(name: 'is_locked', type: 'Tinyint(3)', defaultValue: '0', remarks: '是否锁定账户') {

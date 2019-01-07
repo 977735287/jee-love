@@ -20,7 +20,7 @@ databaseChangeLog(logicalFilePath: 'sys_permission.groovy') {
             column(name: 'public_access', type: 'bigint(3)', defaultValue: '0', remarks: '是否公开的权限') {
                 constraints(nullable: 'false')
             }
-            column(name: 'login_access', type: 'bigint(3)', defaultValue: '1', remarks: '是否需要登录才能访问的权限') {
+            column(name: 'login_access', type: 'bigint(3)', defaultValue: '0', remarks: '是否登陆就可以访问的权限') {
                 constraints(nullable: 'false')
             }
             column(name: 'service_name', type: 'varchar(128)', remarks: '权限所在的服务名称')

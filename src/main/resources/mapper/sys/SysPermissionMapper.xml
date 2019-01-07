@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="per.san.sys.mapper.SysPermissionMapper" >
+<mapper namespace="per.san.sys.mapper.SysPermissionMapper">
+    <insert id="insertBatch">
+        insert into sys_permission
+        (code, path, method, level, description, action, resource,
+        public_access, login_access, service_name, object_version_number)
+        values
+        <foreach collection="sysPermissions" item="item" open="" close="" separator=",">
+            (#{item.code}, #{item.path}, #{item.method}, #{item.level}, #{item.description},
+            #{item.action}, #{item.resource}, 0, 0, #{item.serviceName}, 1)
+        </foreach>
+    </insert>
 
     <delete id="deleteBatch">
         delete from sys_permission
@@ -11,4 +21,75 @@
             </foreach>
         </where>
     </delete>
+
+    <update id="updateBatch">
+        update sys_permission
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="code =case" suffix="end,">
+                <foreach collection="sysPermissions" item="item" index="index">
+                    <if test="item.code != null">
+                        when id=#{item.id} then #{item.code}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="path =case" suffix="end,">
+                <foreach collection="sysPermissions" item="item" index="index">
+                    <if test="item.path != null">
+                        when id=#{item.id} then #{item.path}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="method =case" suffix="end,">
+                <foreach collection="sysPermissions" item="item" index="index">
+                    <if test="item.method != null">
+                        when id=#{item.id} then #{item.method}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="level =case" suffix="end,">
+                <foreach collection="sysPermissions" item="item" index="index">
+                    <if test="item.level != null">
+                        when id=#{item.id} then #{item.level}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="description =case" suffix="end,">
+                <foreach collection="sysPermissions" item="item" index="index">
+                    <if test="item.description != null">
+                        when id=#{item.id} then #{item.description}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="action =case" suffix="end,">
+                <foreach collection="sysPermissions" item="item" index="index">
+                    <if test="item.action != null">
+                        when id=#{item.id} then #{item.action}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="resource =case" suffix="end,">
+                <foreach collection="sysPermissions" item="item" index="index">
+                    <if test="item.resource != null">
+                        when id=#{item.id} then #{item.resource}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="service_name =case" suffix="end,">
+                <foreach collection="sysPermissions" item="item" index="index">
+                    <if test="item.serviceName != null">
+                        when id=#{item.id} then #{item.serviceName}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="object_version_number =case" suffix="end,">
+                <foreach collection="sysPermissions" item="item" index="index">
+                    when id=#{item.id} then object_version_number + 1
+                </foreach>
+            </trim>
+        </trim>
+        where
+        <foreach collection="sysPermissions" separator="or" item="item" index="index">
+            id=#{item.id}
+        </foreach>
+    </update>
 </mapper>

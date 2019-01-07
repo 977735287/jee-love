@@ -21,17 +21,28 @@ import java.util.stream.Collectors;
 public class Test {
     public static void main(String[] args) {
 
-        Class<?> clz = new BaseDomain().getClass();
-        Field[] fields = clz.getDeclaredFields();
-        List<String> list = new ArrayList<>();
-        for (Field field : fields) {
-            list.add(field.getName());
-        }
-        List<String> exists = new ArrayList<>();
-        exists.add("createdBy");
-        exists.add("creationDate");
-        list.stream().filter(item -> !exists.contains(item)).collect(Collectors.toList());
-        System.out.println(list);
+        String a = "qqq";
+        final String b = "qqq";
+        String s = "qqq1";
+        String c = a + 1;
+        String d = b + 1;
+        System.out.println(s.equals(c));
+        System.out.println(s == d);
+
+
+
+
+//        Class<?> clz = new BaseDomain().getClass();
+//        Field[] fields = clz.getDeclaredFields();
+//        List<String> list = new ArrayList<>();
+//        for (Field field : fields) {
+//            list.add(field.getName());
+//        }
+//        List<String> exists = new ArrayList<>();
+//        exists.add("createdBy");
+//        exists.add("creationDate");
+//        list.stream().filter(item -> !exists.contains(item)).collect(Collectors.toList());
+//        System.out.println(list);
 
 
 

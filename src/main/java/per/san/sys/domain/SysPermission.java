@@ -168,4 +168,20 @@ public class SysPermission extends BaseDomain {
         this.serviceName = serviceName;
     }
 
+    @Override
+    public String toString() {
+        return "SysPermission{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", path='" + path + '\'' +
+                ", method='" + method + '\'' +
+                ", level='" + level + '\'' +
+                ", description='" + description + '\'' +
+                ", action='" + action + '\'' +
+                ", resource='" + resource + '\'' +
+                ", publicAccess=" + publicAccess +
+                ", loginAccess=" + loginAccess +
+                ", serviceName='" + serviceName + '\'' +
+                '}';
+    }
 }

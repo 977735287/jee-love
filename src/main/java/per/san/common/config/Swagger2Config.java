@@ -30,7 +30,7 @@ public class Swagger2Config {
     @Bean
     public Docket createRestApi() {
         List<Parameter> pars = new ArrayList<>();
-        return new Docket(DocumentationType.SWAGGER_2)
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
@@ -38,13 +38,14 @@ public class Swagger2Config {
                 .build()
                 .globalOperationParameters(pars)
                 .apiInfo(apiInfo());
+        return docket;
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("RESTful API")
                 .description("Api Documentation")
-                .termsOfServiceUrl("https://blog.csdn.net/qq_34596292/article/details/84825130")
+                .termsOfServiceUrl("https://www.baidu.com")
                 .version("1.0")
                 .build();
     }

@@ -1,6 +1,6 @@
 package script.db
 
-databaseChangeLog(logicalFilePath: 'sys_menu.groovy') {
+databaseChangeLog(logicalFilePath: 'sys_user_role.groovy') {
     changeSet(author: 'Sanchar', id: '2018-12-26_sys_user_role') {
         createTable(tableName: 'sys_user_role', remarks: '用户角色关联表') {
             column(name: 'id', type: 'bigint(20)', autoIncrement: 'true', remarks: '表ID，主键，供其他表做外键') {

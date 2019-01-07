@@ -2,8 +2,10 @@ package per.san;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import per.san.common.filter.PermissionApiInitFilter;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -19,7 +21,10 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableAutoConfiguration
 @ComponentScan
 public class StartApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(StartApplication.class, args);
+        ApplicationContext applicationContext = SpringApplication.run(StartApplication.class, args);
+        PermissionApiInitFilter permissionApiInitFilter = new PermissionApiInitFilter(applicationContext);
+        permissionApiInitFilter.init();
     }
 }

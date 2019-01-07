@@ -31,6 +31,11 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     }
 
     @Override
+    public Integer addBatch(List<SysPermission> sysPermissions) {
+        return sysPermissionMapper.insertBatch(sysPermissions);
+    }
+
+    @Override
     public Integer deleteByPrimaryKey(Long id) {
         return sysPermissionMapper.deleteByPrimaryKey(id);
     }
@@ -43,6 +48,11 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     @Override
     public Integer update(SysPermission sysPermission) {
         return sysPermissionMapper.updateByPrimaryKeySelective(sysPermission);
+    }
+
+    @Override
+    public Integer updateBatch(List<SysPermission> sysPermissions) {
+        return sysPermissionMapper.updateBatch(sysPermissions);
     }
 
     @Override
