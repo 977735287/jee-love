@@ -75,9 +75,9 @@ public class SysUserController {
             @RequestParam(required = false) String timeZone,
             @RequestParam(required = false) Date lastPasswordUpdatedAt,
             @RequestParam(required = false) Date lastLoginAt,
-            @RequestParam(required = false) Integer isEnabled,
-            @RequestParam(required = false) Integer isLocked,
-            @RequestParam(required = false) Integer isAdmin,
+            @RequestParam(required = false) Boolean isEnabled,
+            @RequestParam(required = false) Boolean isLocked,
+            @RequestParam(required = false) Boolean isAdmin,
             @RequestParam(required = false) Date lockedUntilAt,
             @RequestParam(required = false) Integer passwordAttempt
             ) {
@@ -115,9 +115,9 @@ public class SysUserController {
             @RequestParam(required = false) String timeZone,
             @RequestParam(required = false) Date lastPasswordUpdatedAt,
             @RequestParam(required = false) Date lastLoginAt,
-            @RequestParam(required = false) Integer isEnabled,
-            @RequestParam(required = false) Integer isLocked,
-            @RequestParam(required = false) Integer isAdmin,
+            @RequestParam(required = false) Boolean isEnabled,
+            @RequestParam(required = false) Boolean isLocked,
+            @RequestParam(required = false) Boolean isAdmin,
             @RequestParam(required = false) Date lockedUntilAt,
             @RequestParam(required = false) Integer passwordAttempt
             ) {

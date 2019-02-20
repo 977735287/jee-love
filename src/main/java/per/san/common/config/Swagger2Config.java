@@ -31,6 +31,7 @@ public class Swagger2Config {
     public Docket createRestApi() {
         List<Parameter> pars = new ArrayList<>();
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("jee-love")
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))

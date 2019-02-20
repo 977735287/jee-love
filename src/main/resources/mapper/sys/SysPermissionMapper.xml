@@ -92,4 +92,34 @@
             id=#{item.id}
         </foreach>
     </update>
+
+    <select id="selectAllProtectPermission" resultType="per.san.sys.domain.SysPermission">
+        select * from sys_permission
+        <where>
+            is_deleted = 0
+            and public_access = 0
+        </where>
+    </select>
+
+    <select id="selectAllPublicPermission" resultType="per.san.sys.domain.SysPermission">
+        select * from sys_permission
+        <where>
+            is_deleted = 0
+            and public_access = 1
+        </where>
+    </select>
+
+    <select id="selectPermissionByUserId" resultType="per.san.sys.domain.SysPermission">
+        select sp.* from sys_permission sp
+        <where>
+            sp.id IN (
+            select srp.permission_id from sys_role_permission srp
+            where srp.role_id in (
+                select sur.role_id from sys_user_role sur
+                where sur.user_id = #{userId}
+                )
+            )
+            or sp.login_access = 1
+        </where>
+    </select>
 </mapper>

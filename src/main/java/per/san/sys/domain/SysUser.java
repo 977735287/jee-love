@@ -92,19 +92,19 @@ public class SysUser extends BaseDomain {
     *用户是否启用。1启用，0未启用
     */
     @Column(name = "is_enabled",columnDefinition = "TINYINT")
-    private Integer isEnabled;
+    private Boolean isEnabled;
 
     /**
     *是否锁定账户
     */
     @Column(name = "is_locked",columnDefinition = "TINYINT")
-    private Integer isLocked;
+    private Boolean isLocked;
 
     /**
     *是否为管理员用户。1表示是，0表示不是
     */
     @Column(name = "is_admin",columnDefinition = "TINYINT")
-    private Integer isAdmin;
+    private Boolean isAdmin;
 
     /**
     *锁定账户截止时间
@@ -214,27 +214,27 @@ public class SysUser extends BaseDomain {
         this.lastLoginAt = lastLoginAt;
     }
 
-    public Integer getIsEnabled() {
+    public Boolean getIsEnabled() {
         return this.isEnabled;
     }
 
-    public void setIsEnabled(Integer isEnabled) {
+    public void setIsEnabled(Boolean isEnabled) {
         this.isEnabled = isEnabled;
     }
 
-    public Integer getIsLocked() {
+    public Boolean getIsLocked() {
         return this.isLocked;
     }
 
-    public void setIsLocked(Integer isLocked) {
+    public void setIsLocked(Boolean isLocked) {
         this.isLocked = isLocked;
     }
 
-    public Integer getIsAdmin() {
+    public Boolean getIsAdmin() {
         return this.isAdmin;
     }
 
-    public void setIsAdmin(Integer isAdmin) {
+    public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 

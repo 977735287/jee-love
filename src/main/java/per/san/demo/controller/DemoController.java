@@ -85,7 +85,7 @@ public class DemoController {
     }
 
     @ApiOperation(value = "根据ID查询")
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Demo> queryById(
             @PathVariable("id") Long id) {
         return new ResponseEntity<>(iDemoService.queryById(id), HttpStatus.OK);

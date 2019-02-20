@@ -37,4 +37,22 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
      */
     Integer updateBatch(@Param("sysPermissions") List<SysPermission> sysPermissions);
 
+    /**
+     * description: 查询所有不公开的接口权限信息(不包含登陆即可访问的接口信息)
+     * @return 权限信息列表
+     */
+    List<SysPermission> selectAllProtectPermission();
+
+    /**
+     * description: 查询所有公开的接口权限信息
+     * @return 权限信息列表
+     */
+    List<SysPermission> selectAllPublicPermission();
+
+    /**
+     * description: 通过用户ID查询用户所拥有的权限
+     * @return 权限信息列表
+     */
+    List<SysPermission> selectPermissionByUserId(@Param("userId") Long userId);
+
 }

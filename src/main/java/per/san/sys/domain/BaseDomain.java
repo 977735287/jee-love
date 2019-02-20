@@ -18,28 +18,24 @@ public class BaseDomain {
     /**
      *创建人
      */
-    @JsonIgnore
     @Column(name = "created_by",columnDefinition = "BIGINT")
     private Long createdBy;
 
     /**
      *创建时间
      */
-    @JsonIgnore
     @Column(name = "creation_date",columnDefinition = "DATETIME")
     private Date creationDate;
 
     /**
      *更新人
      */
-    @JsonIgnore
     @Column(name = "last_updated_by",columnDefinition = "BIGINT")
     private Long lastUpdatedBy;
 
     /**
      *更新时间
      */
-    @JsonIgnore
     @Column(name = "last_update_date",columnDefinition = "DATETIME")
     private Date lastUpdateDate;
 
@@ -53,7 +49,6 @@ public class BaseDomain {
     /**
      *版本控制
      */
-    @JsonIgnore
     @Column(name = "object_version_number",columnDefinition = "BIGINT")
     private Long objectVersionNumber;
 

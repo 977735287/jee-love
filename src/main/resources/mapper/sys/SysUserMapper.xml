@@ -11,4 +11,13 @@
             </foreach>
         </where>
     </delete>
+
+    <select id="selectByUsername" resultType="per.san.sys.domain.SysUser">
+        select * from sys_user
+        <where>
+            is_deleted = 0
+            and user_name = #{username}
+        </where>
+        limit 1
+    </select>
 </mapper>

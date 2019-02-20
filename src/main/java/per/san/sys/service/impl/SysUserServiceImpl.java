@@ -2,6 +2,7 @@ package per.san.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import per.san.common.utils.page.PageHelper;
 import per.san.common.utils.page.PageRequest;
@@ -25,8 +26,12 @@ public class SysUserServiceImpl implements ISysUserService {
     @Autowired
     SysUserMapper sysUserMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public Integer add(SysUser sysUser) {
+        sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
         return sysUserMapper.insertSelective(sysUser);
     }
 
