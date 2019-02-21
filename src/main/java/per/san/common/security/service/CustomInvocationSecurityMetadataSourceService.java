@@ -26,7 +26,7 @@ import java.util.List;
  * lastUpdateDate: 2/19/2019 20:56
  */
 @Service
-public class MyInvocationSecurityMetadataSourceService  implements
+public class CustomInvocationSecurityMetadataSourceService  implements
         FilterInvocationSecurityMetadataSource {
 
     @Autowired

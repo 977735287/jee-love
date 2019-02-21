@@ -25,15 +25,15 @@ import java.io.IOException;
  * lastUpdateDate: 2/19/2019 20:54
  */
 @Service
-public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
+public class CustomFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
 
     @Autowired
     private FilterInvocationSecurityMetadataSource securityMetadataSource;
 
     @Autowired
-    public void setMyAccessDecisionManager(MyAccessDecisionManager myAccessDecisionManager) {
-        super.setAccessDecisionManager(myAccessDecisionManager);
+    public void setMyAccessDecisionManager(CustomAccessDecisionManager customAccessDecisionManager) {
+        super.setAccessDecisionManager(customAccessDecisionManager);
     }
 
 

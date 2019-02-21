@@ -20,7 +20,7 @@ import java.util.Iterator;
  * lastUpdateDate: 2/19/2019 20:51
  */
 @Service
-public class MyAccessDecisionManager implements AccessDecisionManager {
+public class CustomAccessDecisionManager implements AccessDecisionManager {
 
     // decide 方法是判定是否拥有权限的决策方法，
     //authentication 是释CustomUserDetailsService中循环添加到 GrantedAuthority 对象中的权限信息集合.
